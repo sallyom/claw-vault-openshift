@@ -1,0 +1,28 @@
+apiVersion: claw.sandbox.redhat.com/v1alpha1
+kind: Claw
+metadata:
+  name: api-keys
+  namespace: team-a-claw
+spec:
+  vault:
+    authRole: team-a-openclaw
+    kvMount: users
+    kvVersion: 2
+  credentials:
+    # Reference example only: include only the providers this tenant has.
+    - name: openrouter
+      provider: openrouter
+      vaultRef:
+        - id: team-a/openrouter/apiKey
+    - name: openai
+      provider: openai
+      vaultRef:
+        - id: team-a/openai/apiKey
+    - name: anthropic
+      provider: anthropic
+      vaultRef:
+        - id: team-a/anthropic/apiKey
+    - name: google
+      provider: google
+      vaultRef:
+        - id: team-a/google/apiKey

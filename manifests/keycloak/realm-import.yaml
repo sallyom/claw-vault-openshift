@@ -1,0 +1,63 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: KeycloakRealmImport
+metadata:
+  name: agentic
+  namespace: keycloak
+spec:
+  keycloakCRName: openclaw-keycloak
+  placeholders:
+    VAULT_CLIENT_SECRET:
+      secret:
+        name: vault-oidc-client
+        key: clientSecret
+  realm:
+    realm: agentic
+    enabled: true
+    groups:
+      - name: vault-users
+    clientScopes:
+      - name: groups
+        protocol: openid-connect
+        attributes:
+          include.in.token.scope: "true"
+          display.on.consent.screen: "true"
+        protocolMappers:
+          - name: groups
+            protocol: openid-connect
+            protocolMapper: oidc-group-membership-mapper
+            consentRequired: false
+            config:
+              claim.name: groups
+              full.path: "false"
+              id.token.claim: "true"
+              access.token.claim: "true"
+              userinfo.token.claim: "true"
+          - name: preferred_username
+            protocol: openid-connect
+            protocolMapper: oidc-usermodel-property-mapper
+            consentRequired: false
+            config:
+              user.attribute: username
+              claim.name: preferred_username
+              jsonType.label: String
+              id.token.claim: "true"
+              access.token.claim: "true"
+              userinfo.token.claim: "true"
+    clients:
+      - clientId: vault
+        name: Vault
+        enabled: true
+        protocol: openid-connect
+        publicClient: false
+        clientAuthenticatorType: client-secret
+        secret: ${VAULT_CLIENT_SECRET}
+        standardFlowEnabled: true
+        directAccessGrantsEnabled: false
+        serviceAccountsEnabled: false
+        defaultClientScopes:
+          - groups
+        redirectUris:
+          - http://localhost:8250/oidc/callback
+          - https://vault.apps.example.com/ui/vault/auth/oidc/oidc/callback
+        webOrigins:
+          - https://vault.apps.example.com

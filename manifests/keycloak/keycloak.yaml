@@ -1,0 +1,31 @@
+apiVersion: k8s.keycloak.org/v2alpha1
+kind: Keycloak
+metadata:
+  name: openclaw-keycloak
+  namespace: keycloak
+spec:
+  instances: 1
+  bootstrapAdmin:
+    user:
+      secret: keycloak-bootstrap-admin
+  db:
+    vendor: postgres
+    host: keycloak-db
+    database: keycloak
+    usernameSecret:
+      name: keycloak-db
+      key: username
+    passwordSecret:
+      name: keycloak-db
+      key: password
+  http:
+    httpEnabled: true
+  hostname:
+    strict: false
+    backchannelDynamic: false
+  proxy:
+    headers: xforwarded
+  networkPolicy:
+    enabled: false
+  ingress:
+    enabled: false

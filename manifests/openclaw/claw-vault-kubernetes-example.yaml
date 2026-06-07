@@ -1,0 +1,15 @@
+apiVersion: claw.sandbox.redhat.com/v1alpha1
+kind: Claw
+metadata:
+  name: instance
+  namespace: team-a-claw
+spec:
+  vault:
+    authRole: team-a-openclaw
+    kvMount: users
+    kvVersion: 2
+  credentials:
+    - name: openrouter
+      provider: openrouter
+      vaultRef:
+        - id: team-a/openrouter/apiKey

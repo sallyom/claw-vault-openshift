@@ -1,0 +1,38 @@
+global:
+  openshift: true
+
+server:
+  enabled: true
+
+  route:
+    enabled: true
+    tls:
+      termination: edge
+      insecureEdgeTerminationPolicy: Redirect
+
+  image:
+    repository: registry.connect.redhat.com/hashicorp/vault
+    tag: 1.21.2-ubi
+
+  ui:
+    enabled: true
+    serviceType: ClusterIP
+
+injector:
+  enabled: true
+  image:
+    repository: registry.connect.redhat.com/hashicorp/vault-k8s
+    tag: 1.7.4-ubi
+  agentImage:
+    repository: registry.connect.redhat.com/hashicorp/vault
+    tag: 1.21.2-ubi
+
+csi:
+  image:
+    repository: registry.connect.redhat.com/hashicorp/vault-csi-provider
+    tag: 1.7.0-ubi
+  agent:
+    image:
+      repository: registry.connect.redhat.com/hashicorp/vault
+      tag: 1.21.2-ubi
+

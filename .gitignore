@@ -1,0 +1,6 @@
+.env
+vault-unseal.json
+*.token
+*.log
+local/
+.DS_Store

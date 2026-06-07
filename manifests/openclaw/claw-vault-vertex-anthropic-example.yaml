@@ -1,0 +1,20 @@
+apiVersion: claw.sandbox.redhat.com/v1alpha1
+kind: Claw
+metadata:
+  name: vertex-anthropic
+  namespace: team-a-claw
+spec:
+  vault:
+    authRole: team-a-openclaw
+    kvMount: users
+    kvVersion: 2
+  credentials:
+    - name: anthropic-vertex
+      type: gcp
+      provider: anthropic
+      domain: .googleapis.com
+      gcp:
+        project: my-gcp-project
+        location: us-east5
+      vaultRef:
+        - id: team-a/vertex/credentialsJson

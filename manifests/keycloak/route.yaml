@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: openclaw-keycloak
+  namespace: keycloak
+spec:
+  to:
+    kind: Service
+    name: openclaw-keycloak-service
+  port:
+    targetPort: http
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
+
